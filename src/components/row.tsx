@@ -1,7 +1,7 @@
 // Desc: This file contains the row component for the table
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
@@ -16,19 +16,28 @@ interface RowProps {
 
 export default function Row({ details, header }: RowProps) {
 	const [isChecked, setIsChecked] = useState(false);
+	const checkbox = useRef<HTMLInputElement>(null);
 
 	const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setIsChecked(e.target.checked);
 	};
 
+	const selectRow = () => {
+		if (checkbox.current) {
+			checkbox.current.click();
+		}
+	}
+
 
 	return (
 		<div
-			className={`flex flex-row items-center justify-around w-full h-16 px-6 bg-white dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${isChecked ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
+			className={`flex flex-row items-center justify-around w-full h-16 px-6 bg-white cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${isChecked ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
+			onClick={selectRow}
 		>
 			<input
 				id="checkbox"
 				type="checkbox"
+				ref={checkbox}
 				className="w-4 h-4 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 hover:pointer"
 				onChange={handleCheckboxChange}
 			/>
