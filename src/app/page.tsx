@@ -28,13 +28,15 @@ export default function Home() {
   }
 
   return (
-    <main >
-      <div className="flex flex-col w-[calc(100%-3rem)] border border-gray-300 rounded-lg shadow mx-auto mt-[20px] p-2 bg-white dark:bg-zinc-800">
+    <main className="flex flex-col h-screen overflow-y-hidden">
+      <div>hello</div>
+      <div className="flex flex-col w-[calc(100%-3rem)] overflow-y-auto border border-gray-300 rounded-lg shadow mx-auto mt-[10px] p-2 bg-white dark:bg-zinc-800">
         <Row details={details} header={true} />
         {rowData.map((dataItem, index) => (
           <Row key={index} details={dataItem} header={false} />
         ))}
       </div>
+      <div>hello</div>
     </main>
   )
 }
