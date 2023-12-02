@@ -18,10 +18,6 @@ export default function Row({ details, header }: RowProps) {
 	const [isChecked, setIsChecked] = useState(false);
 	const checkbox = useRef<HTMLInputElement>(null);
 
-	const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setIsChecked(e.target.checked);
-	};
-
 	const selectRow = () => {
 		if (checkbox.current) {
 			checkbox.current.click();
@@ -38,8 +34,8 @@ export default function Row({ details, header }: RowProps) {
 				id="checkbox"
 				type="checkbox"
 				ref={checkbox}
-				className="w-4 h-4 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 hover:pointer"
-				onChange={handleCheckboxChange}
+				className="w-4 h-4 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+				onChange={selectRow}
 			/>
 			{header ? (
 				<div className="flex flex-row justify-around w-full font-semibold text-gray-500 dark:text-zinc-100  ml-6">
