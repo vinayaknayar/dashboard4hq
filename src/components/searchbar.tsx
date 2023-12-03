@@ -35,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 				value={searchTerm}
 				onChange={handleValueChange}
 				onKeyDown={handleKeyDown}
-				className="flex-1 focus:outline-none bg-transparent"
+				className="search-icon flex-1 focus:outline-none bg-transparent"
 			/>
 			<button className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-zinc-700">
 				<SearchIcon onClick={() => Search(searchTerm)} />
