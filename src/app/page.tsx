@@ -152,7 +152,7 @@ export default function Home() {
           <Row key={currentPage} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
         </div>
         {getPaginatedData().map((dataItem, index) => (
-          <div className='min-w-[1080px] w-full'>
+          <div key={index} className='min-w-[1080px] w-full'>
             <Row
               key={dataItem.id}
               details={dataItem}
@@ -173,23 +173,23 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center gap-2 md:flex-row">
           <span className="mr-2">Page {currentPage} of {totalPages}</span>
           <div className="flex flex-row items-center justify-center">
-          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(1)}>
-            <KeyboardDoubleArrowLeft />
-          </button>
-          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={prevPage}>
-            <ChevronLeft />
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button key={page} className={`w-8 h-8 mx-1 flex items-center justify-center rounded-lg border ${page === currentPage ? 'bg-gray-100 dark:bg-zinc-700' : 'bg-white dark:bg-zinc-800'}`} onClick={() => goToPage(page)}>
-              {page}
+            <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(1)}>
+              <KeyboardDoubleArrowLeft />
             </button>
-          ))}
-          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={nextPage}>
-            <ChevronRight />
-          </button>
-          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(totalPages)}>
-            <KeyboardDoubleArrowRight />
-          </button>
+            <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={prevPage}>
+              <ChevronLeft />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button key={page} className={`w-8 h-8 mx-1 flex items-center justify-center rounded-lg border ${page === currentPage ? 'bg-gray-100 dark:bg-zinc-700' : 'bg-white dark:bg-zinc-800'}`} onClick={() => goToPage(page)}>
+                {page}
+              </button>
+            ))}
+            <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={nextPage}>
+              <ChevronRight />
+            </button>
+            <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(totalPages)}>
+              <KeyboardDoubleArrowRight />
+            </button>
           </div>
         </div>
       </div>
