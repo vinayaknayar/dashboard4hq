@@ -12,23 +12,31 @@ interface RowProps {
 		role: string
 	}
 	header: boolean
+	selected: boolean
+	onSelect: (row: any) => void
 }
 
-export default function Row({ details, header }: RowProps) {
-	const [isChecked, setIsChecked] = useState(false);
+export default function Row({ details, header, selected, onSelect }: RowProps) {
 	const checkbox = useRef<HTMLInputElement>(null);
 
 	const selectRow = () => {
+
 		if (checkbox.current) {
 			checkbox.current.click();
+			onSelect(details);
 		}
-	}
+	};
 
+	const selectAll = () => {
+		if (checkbox.current) {
+			onSelect('selectall');
+		}
+	};
 
 	return (
 		<div
-			className={`flex flex-row items-center justify-around w-full min-h-[56px] px-6 bg-white cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${isChecked ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
-			onClick={selectRow}
+			className={`flex flex-row items-center justify-around w-full min-h-[56px] px-6 bg-white cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${selected ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
+			onClick={header ? selectAll : selectRow}
 		>
 			<input
 				id="checkbox"
@@ -36,6 +44,7 @@ export default function Row({ details, header }: RowProps) {
 				ref={checkbox}
 				className="w-4 h-4 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
 				onChange={selectRow}
+				checked={selected}
 			/>
 			{header ? (
 				<div className="flex flex-row justify-around w-full font-semibold text-gray-500 dark:text-zinc-100  ml-6">
