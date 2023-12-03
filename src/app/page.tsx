@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react'
 import Row from '@/components/row'
 import SearchBar from '@/components/searchbar';
-import { ChevronLeft, DeleteOutline } from '@mui/icons-material';
-import { ChevronRight } from '@mui/icons-material';
-import { get } from 'http';
+import { ChevronLeft, ChevronRight, DeleteOutline } from '@mui/icons-material';
 
 export default function Home() {
   const [rowData, setRowData] = useState([]);
@@ -55,6 +53,12 @@ export default function Home() {
     setFilteredData(filtered);
   };
 
+  const deleteRow = (row: any) => {
+    const updatedData = rowData.filter((dataItem: any) => dataItem.id !== row.id);
+    setRowData(updatedData);
+    setFilteredData(updatedData);
+  };
+  
   const handleRowSelection = (row: any) => {
     const isSelected = selectedRows.some((r: any) => r.id === row.id);
 
@@ -127,6 +131,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col h-screen overflow-y-hidden">
+      {/* seearchbar */}
       <div className="flex items-center justify-between w-full px-6 py-4">
         <SearchBar onSearch={Search} />
         <button
@@ -136,8 +141,8 @@ export default function Home() {
         >
           <DeleteOutline />
         </button>
-
       </div>
+      {/* table */}
       <div className="flex flex-col w-[calc(100%-3rem)] overflow-y-auto border border-gray-300 rounded-lg shadow mx-auto p-2 bg-white dark:bg-zinc-800">
         <Row key={currentPage} details={details} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
         {getPaginatedData().map((dataItem, index) => (
@@ -147,10 +152,11 @@ export default function Home() {
             header={false}
             onSelect={handleRowSelection}
             selected={allRowsSelected() ? true : dataItem.selected}
+            deleteRow={deleteRow} 
           />
         ))}
       </div>
-
+        {/* paginator */}
       <div className="flex justify-between items-center p-8 text-gray-900 dark:text-zinc-100">
         <div className="flex items-center justify-center">
           {selectedRows.length} of {rowData.length} row(s) selected
@@ -169,6 +175,7 @@ export default function Home() {
             <ChevronRight />
           </button>
         </div>
+
       </div>
     </main>
   )

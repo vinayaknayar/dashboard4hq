@@ -2,8 +2,7 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { EditNote, DeleteOutline } from '@mui/icons-material';
 
 interface RowProps {
 	details: {
@@ -14,9 +13,10 @@ interface RowProps {
 	header: boolean
 	selected: boolean
 	onSelect: (row: any) => void
+	deleteRow?: (row: any) => void
 }
 
-export default function Row({ details, header, selected, onSelect }: RowProps) {
+export default function Row({ details, header, selected, onSelect, deleteRow }: RowProps) {
 	const checkbox = useRef<HTMLInputElement>(null);
 
 	const selectRow = () => {
@@ -32,6 +32,12 @@ export default function Row({ details, header, selected, onSelect }: RowProps) {
 			onSelect('selectall');
 		}
 	};
+
+	const deleteItem = () => {
+		if (deleteRow) {
+			deleteRow(details);
+		}
+	}
 
 	return (
 		<div
@@ -62,15 +68,16 @@ export default function Row({ details, header, selected, onSelect }: RowProps) {
 					<div className="w-1/3 flex">
 						<div className="flex">
 							<button className="w-6 h-6 mr-3 p-4 flex items-center justify-center rounded-md border border-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-700">
-								<EditNoteIcon />
+								<EditNote />
 							</button>
-							<button className="w-6 h-6 p-4 flex text-red-500 items-center justify-center rounded-md border border-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700">
-								<DeleteOutlineIcon />
-							</button>
-						</div>
+							<button className="w-6 h-6 p-4 flex text-red-500 items-center justify-center rounded-md border border-red-500 hover:bg-gray-100 dark:hover:bg-zinc-700" onClick={deleteItem} >
+								<DeleteOutline />
+						</button>
 					</div>
 				</div>
-			)}
-		</div>
+				</div>
+	)
+}
+		</div >
 	)
 }
