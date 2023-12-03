@@ -10,7 +10,7 @@ export default function Home() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [allselected, setAllSelected] = useState(false);
+
   const rowsPerPage = 10;
 
   useEffect(() => {
@@ -22,23 +22,17 @@ export default function Home() {
         setRowData(data);
         setFilteredData(data);
       } catch (error) {
-        console.log('Error fetching data:', error);
+        console.log('Error fetching data');
       }
     };
 
     fetchData();
   }, []);
 
-  const details = {
-    name: 'John Doe',
-    email: 'johndoe@mail.com',
-    role: 'admin',
-  }
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   const Search = (searchTerm: string) => {
     const searchTerms = searchTerm.toLowerCase().split(' ').filter(Boolean);
-    console.log(searchTerms.length);
 
     const filtered = searchTerms.length
       ? rowData.filter((row: any) =>
@@ -58,7 +52,7 @@ export default function Home() {
     setRowData(updatedData);
     setFilteredData(updatedData);
   };
-  
+
   const handleRowSelection = (row: any) => {
     const isSelected = selectedRows.some((r: any) => r.id === row.id);
 
@@ -68,23 +62,18 @@ export default function Home() {
     } else {
       setSelectedRows([...selectedRows, row]);
     }
-    console.log(selectedRows)
   };
 
   const handleSelectAll = () => {
-    const allselected = allRowsSelected()
-    console.log(allRowsSelected())
+    const allselected = allRowsSelected();
     if (allselected) {
       setSelectedRows([]);
-      setAllSelected(false);
       return;
     }
     const allSelectedRows = getPaginatedData().filter(
       (dataItem) => !selectedRows.some((row) => row.id === dataItem.id)
     );
     setSelectedRows([...selectedRows, ...allSelectedRows]);
-    console.log(selectedRows);
-    setAllSelected(true);
   };
 
   const allRowsSelected = () => {
@@ -99,7 +88,6 @@ export default function Home() {
     setRowData(updatedData);
     setFilteredData(updatedData);
     setSelectedRows([]);
-    setAllSelected(false);
   };
 
 
@@ -129,9 +117,25 @@ export default function Home() {
     }));
   };
 
+  const SaveEdit = (editedDetails: any) => {
+    const updatedData = rowData.map((row: any) => {
+      if (row.id === editedDetails.id){
+        return {
+          ...row,
+          ...editedDetails,
+        };
+      } else {
+        return row;
+      }
+    }) as any;
+    
+    setRowData(updatedData);
+    setFilteredData(updatedData);
+  };
+
   return (
     <main className="flex flex-col h-screen overflow-y-hidden">
-      {/* seearchbar */}
+      {/* searchbar */}
       <div className="flex items-center justify-between w-full px-6 py-4">
         <SearchBar onSearch={Search} />
         <button
@@ -144,7 +148,7 @@ export default function Home() {
       </div>
       {/* table */}
       <div className="flex flex-col w-[calc(100%-3rem)] overflow-y-auto border border-gray-300 rounded-lg shadow mx-auto p-2 bg-white dark:bg-zinc-800">
-        <Row key={currentPage} details={details} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
+        <Row key={currentPage} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
         {getPaginatedData().map((dataItem, index) => (
           <Row
             key={dataItem.id}
@@ -152,11 +156,12 @@ export default function Home() {
             header={false}
             onSelect={handleRowSelection}
             selected={allRowsSelected() ? true : dataItem.selected}
-            deleteRow={deleteRow} 
+            deleteRow={deleteRow}
+            editRow={SaveEdit}
           />
         ))}
       </div>
-        {/* paginator */}
+      {/* paginator */}
       <div className="flex justify-between items-center p-8 text-gray-900 dark:text-zinc-100">
         <div className="flex items-center justify-center">
           {selectedRows.length} of {rowData.length} row(s) selected
@@ -175,7 +180,6 @@ export default function Home() {
             <ChevronRight />
           </button>
         </div>
-
       </div>
     </main>
   )
