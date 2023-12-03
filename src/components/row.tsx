@@ -59,39 +59,39 @@ export default function Row({ details, header, selected, onSelect, deleteRow, ed
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setEditedDetails((prevDetails) => ({
-		  ...prevDetails,
-		  [name]: value,
+			...prevDetails,
+			[name]: value,
 		}));
-	 };
-  
+	};
+
 
 	return (
 		<div
-			className={`flex flex-row items-center justify-around w-full min-h-[56px] px-6 bg-white cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${selected ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
+			className={`flex flex-row items-center justify-around min-h-[56px] px-6 bg-white cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 dark:border-zinc-600 border-b border-gray-300 dark:border-gray-400 ${selected ? 'bg-zinc-200 dark:bg-zinc-600' : ''}`}
 			onClick={header ? selectAll : selectRow}
 		>
 			<input
 				id="checkbox"
 				type="checkbox"
 				ref={checkbox}
-				className="w-4 h-4 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+				className="w-4 h-4 mx-12 bg-gray-100 border-gray-300  focus:ring-3 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
 				onChange={selectRow}
 				checked={selected}
 			/>
 			{!isEditing ? (
 				header ? (
 					<div className="flex flex-row justify-around w-full font-semibold text-gray-500 dark:text-zinc-100 ml-6">
-						<span className="w-1/3">Name</span>
-						<span className="w-1/3">Email</span>
-						<span className="w-1/3">Role</span>
-						<span className="w-1/3">Actions</span>
+						<span className="w-1/3 ">Name</span>
+						<span className="w-1/3 ">Email</span>
+						<span className="w-1/3 ">Role</span>
+						<span className="w-1/3 ">Actions</span>
 					</div>
 				) : (
-					<div className="flex flex-row justify-around items-center w-full ml-6 dark:text-zinc-300">
-						<span className="w-1/3">{details? details.name : ""}</span>
-						<span className="w-1/3">{details? details.email : ""}</span>
-						<span className="w-1/3">{details? details.role : ""}</span>
-						<div className="w-1/3 flex">
+					<div className="flex flex-row justify-around w-full  items-center w-full ml-6 dark:text-zinc-300">
+						<span className="w-1/3 ">{details ? details.name : ""}</span>
+						<span className="w-1/3 ">{details ? details.email : ""}</span>
+						<span className="w-1/3 ">{details ? details.role : ""}</span>
+						<div className="w-1/3 flex ">
 							<div className="flex">
 								<button className="edit w-6 h-6 mr-3 p-4 flex items-center justify-center rounded-md border border-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-700" onClick={handleEdit}>
 									<EditNote />

@@ -28,14 +28,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 	};
 
 	return (
-		<div className="flex w-2/3 items-center border border-gray-300 rounded-lg p-2 text-gray-800 dark:text-zinc-100">
+		<div className="flex w-2/3 min-w-[210px] items-center border border-gray-300 rounded-lg p-2 text-gray-800 dark:text-zinc-100">
 			<input
 				type="text"
 				placeholder="Search"
 				value={searchTerm}
 				onChange={handleValueChange}
 				onKeyDown={handleKeyDown}
-				className="search-icon flex-1 focus:outline-none bg-transparent"
+				className="search-icon flex-1 focus:outline-none bg-transparent min-w-[0]"
 			/>
 			<button className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-100 dark:bg-zinc-700">
 				<SearchIcon onClick={() => Search(searchTerm)} />

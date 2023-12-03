@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Row from '@/components/row'
 import SearchBar from '@/components/searchbar';
-import { ChevronLeft, ChevronRight, DeleteOutline } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, DeleteOutline, KeyboardDoubleArrowLeft, KeyboardDoubleArrowRight } from '@mui/icons-material';
 
 export default function Home() {
   const [rowData, setRowData] = useState([]);
@@ -119,7 +119,7 @@ export default function Home() {
 
   const SaveEdit = (editedDetails: any) => {
     const updatedData = rowData.map((row: any) => {
-      if (row.id === editedDetails.id){
+      if (row.id === editedDetails.id) {
         return {
           ...row,
           ...editedDetails,
@@ -128,13 +128,13 @@ export default function Home() {
         return row;
       }
     }) as any;
-    
+
     setRowData(updatedData);
     setFilteredData(updatedData);
   };
 
   return (
-    <main className="flex flex-col h-screen overflow-y-hidden">
+    <main className="flex flex-col h-screen overflow-hidden">
       {/* searchbar */}
       <div className="flex items-center justify-between w-full px-6 py-4">
         <SearchBar onSearch={Search} />
@@ -147,27 +147,35 @@ export default function Home() {
         </button>
       </div>
       {/* table */}
-      <div className="flex flex-col w-[calc(100%-3rem)] overflow-y-auto border border-gray-300 rounded-lg shadow mx-auto p-2 bg-white dark:bg-zinc-800">
-        <Row key={currentPage} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
+      <div className="flex flex-col w-[calc(100%-3rem)] overflow-auto border border-gray-300 rounded-lg shadow mx-auto p-2 bg-white dark:bg-zinc-800">
+        <div className='min-w-[1080px] w-full'>
+          <Row key={currentPage} header={true} onSelect={handleSelectAll} selected={allRowsSelected()} />
+        </div>
         {getPaginatedData().map((dataItem, index) => (
-          <Row
-            key={dataItem.id}
-            details={dataItem}
-            header={false}
-            onSelect={handleRowSelection}
-            selected={allRowsSelected() ? true : dataItem.selected}
-            deleteRow={deleteRow}
-            editRow={SaveEdit}
-          />
+          <div className='min-w-[1080px] w-full'>
+            <Row
+              key={dataItem.id}
+              details={dataItem}
+              header={false}
+              onSelect={handleRowSelection}
+              selected={allRowsSelected() ? true : dataItem.selected}
+              deleteRow={deleteRow}
+              editRow={SaveEdit}
+            />
+          </div>
         ))}
       </div>
       {/* paginator */}
-      <div className="flex justify-between items-center p-8 text-gray-900 dark:text-zinc-100">
+      <div className="flex flex-col gap-1 justify-between items-center p-8 text-gray-900 dark:text-zinc-100 md:flex-row">
         <div className="flex items-center justify-center">
           {selectedRows.length} of {rowData.length} row(s) selected
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-2 md:flex-row">
           <span className="mr-2">Page {currentPage} of {totalPages}</span>
+          <div className="flex flex-row items-center justify-center">
+          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(1)}>
+            <KeyboardDoubleArrowLeft />
+          </button>
           <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={prevPage}>
             <ChevronLeft />
           </button>
@@ -179,6 +187,10 @@ export default function Home() {
           <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={nextPage}>
             <ChevronRight />
           </button>
+          <button className="w-8 h-8 mx-1 flex items-center justify-center rounded-lg border bg-gray-100 dark:bg-zinc-700" onClick={() => goToPage(totalPages)}>
+            <KeyboardDoubleArrowRight />
+          </button>
+          </div>
         </div>
       </div>
     </main>
